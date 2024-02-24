@@ -1,0 +1,35 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+#inputType, #query {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#imageFile {
+  display: block;
+}
+
+#output {
+  margin-top: 20px;
+}
+
+#infoText {
+  margin-bottom: 10px;
+}
+
+#preview {
+  max-width: 500px;
+  height: auto;
+}

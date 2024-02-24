@@ -1,0 +1,29 @@
+{
+  "models": [
+    {
+      "name": "students_behavior",
+      "path": "D:\\STUDENT-Final-2.v1i.yolov8\\Models\\test2.pt",
+      "classes": [
+        "Bend Over The Desk",
+        "Hand Under Table",
+        "Look Around",
+        "Normal",
+        "Stand Up",
+        "Wave"
+      ],
+      "dataset_info": "https://universe.roboflow.com/class-t58ex/yolov8-wvi7o/dataset/2"
+    },
+    {
+      "name": "classroom_items",
+      "path": "D:\\STUDENT-Final-2.v1i.yolov8\\Models\\test1.pt",
+      "classes": [
+        "bullying",
+        "daydreaming",
+        "hand_rising",
+        "humans",
+        "phone_use"
+      ],
+      "dataset_info": "https://universe.roboflow.com/sam-with-yolo/student-final-2/dataset/1"
+    }
+  ]
+}

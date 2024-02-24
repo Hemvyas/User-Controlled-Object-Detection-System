@@ -1,0 +1,13 @@
+train: D:\STUDENT-Final-2.v1i.yolov8\Test2\train\images
+val: D:\STUDENT-Final-2.v1i.yolov8\Test2\valid\images
+test: ../test/images
+
+nc: 6
+names: ['Bend Over The Desk', 'Hand Under Table', 'Look Around', 'Normal', 'Stand Up', 'Wave']
+
+roboflow:
+  workspace: class-t58ex
+  project: yolov8-wvi7o
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/class-t58ex/yolov8-wvi7o/dataset/2

@@ -1,0 +1,13 @@
+train: D:\STUDENT-Final-2.v1i.yolov8\Test1\train\images
+val: D:\STUDENT-Final-2.v1i.yolov8\Test1\val\images
+test: D:\STUDENT-Final-2.v1i.yolov8\Test1\test\images
+
+nc: 5
+names: ['bullying', 'daydreaming', 'hand_rising', 'human', 'phone_use']
+
+roboflow:
+  workspace: sam-with-yolo
+  project: student-final-2
+  version: 1
+  license: MIT
+  url: https://universe.roboflow.com/sam-with-yolo/student-final-2/dataset/1

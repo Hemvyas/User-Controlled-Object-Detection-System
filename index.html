@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>User Controlled Object Detection System</h1>
+    <form id="myForm">
+    <label for="inputType">Select Input Type:</label>
+    <select id="inputType">
+      <option value="image">Image</option>
+      <option value="video">Video</option>
+      <option value="webcam">Live Webcam</option>
+    </select>
+
+    <div id="inputField">
+      <input type="file" id="imageFile" accept="image/*,video/*">
+    </div>
+
+    <label for="query">Enter your query:</label>
+    <input type="text" id="query" name="query">
+    <button type="submit">Process</button>
+  </form>
+
+  <div id="output">
+    <h2>Results:</h2>
+    <p id="infoText"></p>
+    <img id="preview" src="" alt="Preview">
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
