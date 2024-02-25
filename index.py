@@ -16,7 +16,9 @@ nlp = spacy.load("en_core_web_sm")
 
 
 def load_model_registry():
-    with open(r"D:\STUDENT-Final-2.v1i.yolov8\Models\model.json", "r") as f:
+    with open(
+        r"D:\User-Controlled-Object-Detection-System\Models\model.json", "r"
+    ) as f:
         return json.load(f)
 
 

@@ -2,7 +2,7 @@
   "models": [
     {
       "name": "students_behavior",
-      "path": "D:\\STUDENT-Final-2.v1i.yolov8\\Models\\test2.pt",
+      "path": "D:\\User-Controlled-Object-Detection-System\\Models\\test1.pt",
       "classes": [
         "Bend Over The Desk",
         "Hand Under Table",
@@ -15,7 +15,7 @@
     },
     {
       "name": "classroom_items",
-      "path": "D:\\STUDENT-Final-2.v1i.yolov8\\Models\\test1.pt",
+      "path": "D:\\User-Controlled-Object-Detection-System\\Models\\test1.pt",
       "classes": [
         "bullying",
         "daydreaming",
