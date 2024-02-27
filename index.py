@@ -8,6 +8,29 @@ from nltk.corpus import wordnet as wn
 from flask_cors import CORS
 import base64
 
+
+def levenshtein_distance(a, b):
+    """Calculates the Levenshtein distance between two strings."""
+    n, m = len(a), len(b)
+    if n == 0:
+        return m
+    if m == 0:
+        return n
+    d = np.zeros((n + 1, m + 1))
+    for i in range(n + 1):
+        d[i, 0] = i
+    for j in range(m + 1):
+        d[0, j] = j
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+            if a[i - 1] == b[j - 1]:
+                cost = 0
+            else:
+                cost = 1
+            d[i, j] = min(d[i - 1, j] + 1, d[i, j - 1] + 1, d[i - 1, j - 1] + cost)
+    return d[n, m]
+
+
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
@@ -30,24 +53,38 @@ def find_synonyms(word):
     for syn in wn.synsets(word):
         for lemma in syn.lemmas():
             synonyms.add(lemma.name().replace("_", " "))
+
+    for syn in wn.synsets(word):
+        for lemma in syn.lemmas():
+            for other_syn in wn.synsets(lemma.name().replace("_", " ")):
+                similarity = syn.wup_similarity(other_syn)
+                if similarity > 0.8:  
+                    synonyms.add(other_syn.lemma_names()[0].replace("_", " "))
     return synonyms
 
 
 def select_model(objects, model_registry):
     best_model = None
-    highest_score = -1  
+    highest_score = -1
 
     for model in model_registry["models"]:
-        score = 0  
-        class_names = [cls.lower() for cls in model["classes"]]  
+        score = 0
+        class_names = [cls.lower() for cls in model["classes"]]
 
         for obj in objects:
             synonyms = find_synonyms(obj)
-            synonyms.add(obj) 
+            synonyms.add(obj)
 
             score += sum(1 for syn in synonyms if syn in class_names)
 
-        
+            for cls in class_names:
+                distance = levenshtein_distance(obj, cls)
+                if distance <= 2: 
+                    score += 0.5  
+
+            overlap_count = sum(1 for cls in class_names if any(syn in cls for syn in synonyms))
+            score += overlap_count * 0.2
+
         if score > highest_score:
             highest_score = score
             best_model = model
