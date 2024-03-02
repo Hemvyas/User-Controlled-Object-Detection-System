@@ -1,0 +1,11 @@
+INFO:root:**Processing image: uploads\img6.jpeg with query: detect student
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): api.roboflow.com:443
+DEBUG:urllib3.connectionpool:https://api.roboflow.com:443 "GET /hem-vyas-r6oqf?api_key=kjqQE29cDa4SqSZO0uyU HTTP/1.1" 200 4701
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): api.roboflow.com:443
+DEBUG:urllib3.connectionpool:https://api.roboflow.com:443 "GET /hem-vyas-r6oqf/class-room-management-system?api_key=kjqQE29cDa4SqSZO0uyU HTTP/1.1" 200 3740
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): api.roboflow.com:443
+DEBUG:urllib3.connectionpool:https://api.roboflow.com:443 "GET /hem-vyas-r6oqf/class-room-management-system?api_key=kjqQE29cDa4SqSZO0uyU HTTP/1.1" 200 3740
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): detect.roboflow.com:443
+DEBUG:urllib3.connectionpool:https://detect.roboflow.com:443 "POST /class-room-management-system/1?api_key=kjqQE29cDa4SqSZO0uyU&name=YOUR_IMAGE.jpg&overlap=40&confidence=30&stroke=1&labels=false&format=json HTTP/1.1" 200 730
+INFO:werkzeug:127.0.0.1 - - [01/Mar/2024 03:01:08] "POST /upload HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in 'D:\\User-Controlled-Object-Detection-System\\app.py', reloading

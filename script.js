@@ -1,73 +1,79 @@
-const form = document.getElementById("myForm");
-const inputType = document.getElementById("inputType");
-const inputField = document.getElementById("inputField");
-const imageFile = document.getElementById("imageFile");
-const query = document.getElementById("query");
-const infoText = document.getElementById("infoText");
-const preview = document.getElementById("preview");
+document.getElementById("myForm").addEventListener("submit",async function (e) {
+  e.preventDefault(); // Prevent the default form submission
 
-form.addEventListener("submit", function (event) {
-  event.preventDefault();
+  const inputType = document.getElementById("inputType").value;
+  const fileInput = document.getElementById("imageFile");
+  const queryInput = document.getElementById("query").value;
 
-  const selectedType = inputType.value;
-  let inputData = new FormData();
-  inputData.append("inputType", selectedType);
-  inputData.append("query", query.value);
-
-  // Adjust the 'inputData' FormData object based on the input type
-  if (selectedType === "image") {
-    inputData.append("inputData", imageFile.files[0]);
-    console.log(inputData);
-  } else {
-    // For video and webcam, additional logic is needed to handle file/stream
-    console.error(`${selectedType} input not yet implemented.`);
+  if (inputType !== "image" && inputType !== "video") {
+    alert("Currently, only image and video inputs are supported.");
     return;
   }
 
-  fetch("http://localhost:5000/process", {
-    method: "POST",
-    body: inputData,
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("data:", data);
-        if (data.detections && data.detections.length > 0) {
-          let detectionsText = data.detections
-            .map((det) => {
-              return `${det.label} (${det.confidence * 100}%) - Box: [${
-                det.bounding_box.xmin
-              }, ${det.bounding_box.ymin}, ${det.bounding_box.xmax}, ${
-                det.bounding_box.ymax
-              }]`;
-            })
-            .join("\n");
-          infoText.textContent = detectionsText;
-        } else {
-          infoText.textContent = "No detections.";
-        }
-        
-      if (data.preview) {
-        preview.src = `data:image/jpeg;base64,${data.preview}`;
-        preview.style.display = "block";
-      } else {
-        preview.style.display = "none";
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      infoText.textContent = "Error processing input. Please try again.";
-    });
-});
-
-inputType.addEventListener("change", function () {
-  if (this.value === "image") {
-    inputField.style.display = "block";
-  } else {
-    inputField.style.display = "none";
+  if (fileInput.files.length === 0) {
+    alert("Please select a file to upload.");
+    return;
   }
+
+  const file = fileInput.files[0];
+
+  const MAX_FILE_SIZE = 16 * 1024 * 1024; // 16 MB - Adjust as per your backend configuration
+
+  if (file.size > MAX_FILE_SIZE) {
+    alert("File is too large. Maximum size allowed is 16MB.");
+    return;
+  }
+
+// const controller = new AbortController();
+// const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("query", queryInput);
+
+
+
+  try {
+    const res= await fetch("http://localhost:5000/upload",{
+      method:"POST",
+      body:formData,
+    })
+    if(!res.ok)
+    {
+      throw new Error('Network response was not ok');
+    }
+    const data=await  res.json()
+    console.log(data);
+    displayResults(data);  
+  } catch (error) {
+    console.error("Error:", error);
+    document.getElementById("infoText").textContent = error.message;
+    ("Error processing your request. Please try again.");
+  }
+
+function displayResults(data) {
+  if (data.error) {
+    document.getElementById("infoText").textContent = data.error;
+    return;
+  }
+
+  // Assuming data.predictions is an array of objects with properties like 'class'
+  const infoText = document.getElementById("infoText");
+  if (data.predictions && data.predictions.length > 0) {
+    const resultsText = data.predictions
+      .map(
+        (prediction) =>
+          `${prediction.class} (confidence: ${prediction.confidence}%)`
+      )
+      .join(", ");
+    infoText.textContent = `Detected objects: ${resultsText}`;
+  } else {
+    infoText.textContent = "No objects detected.";
+  }
+
+  // Optionally display the uploaded image (if the backend sends back a URL)
+  // For this, your backend needs to save the uploaded file and send back its URL in the response
+  // document.getElementById('preview').src = 'URL_TO_THE_UPLOADED_IMAGE';
+}
 });
